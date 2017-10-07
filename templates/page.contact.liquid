@@ -1,0 +1,113 @@
+<style>
+  .feedback { font-size: 22px; }
+  .contact-form input { font-size: 20px; }
+  .contact-form input, .contact-form textarea { width: 100%; max-width: 100% !important;}
+</style>
+<div class="row">
+  <div class="columns">
+    {% include 'snippet-breadcrumbs' %}
+    <h1 class="page-title">{{ page.title }}</h1>
+  </div>
+</div>
+
+  
+<div class="row full-width" style="background-color: #FFF; padding-top: 20px;">
+  <div class="columns large-4">    
+    <div class="page-content rte-content colored-links">
+      
+      {{ page.content }}
+    </div>
+  </div>
+
+  <div class="columns large-7">
+    {% form 'contact' %}
+
+      {% if form.posted_successfully? %}
+      <div class="success feedback accent-text">
+        <p>{{ 'contact_page.success_feedback' | t }}</p>
+      </div>
+      {% endif %}
+
+      {% if form.errors %}
+      <div class="error feedback accent-text">
+        <p>{{ 'contact_page.error_feedback' | t }}:</p>
+        <ul>
+        {% for field in form.errors %}
+          <li>{{ field | capitalize | replace: 'Body', 'Message' }} {{ form.errors.messages[field] }}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      
+      {% unless form.posted_successfully? %}
+    
+      <p>
+        <label>{{ 'contact_page.name' | t }}</label>
+        <input type="text" id="contactFormName" name="contact[name]" class="styled-input{% if form.errors contains 'name' %} error{% endif %}" value="{{ contact.fields.name }}" />
+      </p>
+      <p>
+        <label>{{ 'contact_page.email' | t }}</label>
+        <input required="required" type="email" id="contactFormEmail" name="contact[email]" class="styled-input{% if form.errors contains 'email' %} error{% endif %}" value="{{ contact.fields.email }}" />
+      </p>
+      <p>
+        <label>{{ 'contact_page.phone' | t }}</label>
+        <input type="tel" id="contactFormTelephone" name="contact[phone]" class="styled-input{% if form.errors contains 'phone' %} error{% endif %}" value="{{ contact.fields.phone }}" />
+      </p> 
+      <p>
+        <label>{{ 'contact_page.message' | t }}</label>
+        <textarea required="required" rows="10" cols="60"  id="contactFormMessage" name="contact[body]" class="styled-input{% if form.errors contains 'body' %} error{% endif %}">{{  contact.fields.body }}</textarea>
+      </p>
+      <p>
+        <input class="button styled-submit" type="submit" id="contactFormSubmit" value="{{ 'contact_page.button' | t }}" />
+      </p>
+      
+      {% endunless %}
+    
+      {% if form.posted_successfully? or form.errors %}
+        <script>
+          window.location.hash = '#page-content';
+        </script>
+      {% endif %}
+
+    {% endform %}
+
+  </div>
+  <div class="columns large-4 push-1  ">
+    <div class="divider show-for-small"></div>
+    <div>
+      {% capture snippet_name %}sidebar-{{page.handle}}{% endcapture %}
+      {% include snippet_name %}
+    </div>
+  </div>
+</div>
+
+<br style="clear:both;" />
+<div class="buffer"></div>
+<div class="spacer offset">
+  <div class="angle right red">
+  </div>
+</div>
+<section class="smp-links blog-products row" style="max-width: 100%; color: #999; padding-top: 50px; margin-bottom: 50px;background-color: #000;">
+  <h2 class="title">Symbolic Muscle Products</h2>
+  <div class="product-grid">
+    {% for product in collections['products'].products limit: number_of_related_products_to_fetch %}
+    {% include 'snippet-product-item' with number_of_related_products_to_show %}
+    {% endfor %}
+  </div>
+</section>
+<div class="spacer">
+  <div class="angle down-right black">
+  </div>
+</div>
+<div class="spacer">
+  <div class="angle left darkgray">
+  </div>
+</div>
+<section class="row social-share" style="max-width: 100%; text-align: center;">
+  <div class="columns center">
+    {% include 'snippet-page-share' %}
+  </div>
+</section>
+
+
+

@@ -1,0 +1,438 @@
+{%- include 'bold-ro' -%}
+{%- include 'bold-product' with product, hide_action: 'break', output: 'none' -%}
+{% assign details = product.metafields.details %}
+<header>
+  <div class="row show-for-medium-up">
+    <div class="columns">
+      {% if settings.product-breadcrumbs-show %}
+        {% include 'snippet-breadcrumbs' %}
+      {% endif %}
+    </div>
+  </div>
+  <div class="previous-next row">
+    {% if collection %}
+      {% if collection.previous_product or collection.next_product %}
+        <div class="previous"> 
+          {% if collection.previous_product %}
+            <a title="Previous Product" href="{{ collection.previous_product}}"><i class="fa fa-long-arrow-left"></i> {{ 'products.previous_item' | t }}</a>
+          {% endif %}
+        </div>
+
+        <div class="next">
+          {% if collection.next_product %}
+            <a title="Next Product" href="{{ collection.next_product}}">{{ 'products.next_item' | t }} <i class="fa fa-long-arrow-right"></i></a>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</header>
+
+<article class="row" itemscope itemtype="http://schema.org/Product">
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
+  <meta itemprop="image" content="{{ product.featured_image.src | product_img_url: 'grande' }}" />
+
+  <div class="positions">
+    <div class="columns large-3 column-left box1">
+      {% if settings.product-position-title-vendor == 'left' %}
+        <div data-position="title-vendor">
+          {% assign title = product.title | split: ' || ' %}
+          <h1 class="page-title" itemprop="name">{{ title[0] }} <span>{{ title[1] }}{% if title | size == 3 %} <br />{{ title[2] }}{% endif %}</span></h1>
+
+          {% if settings.product-brand-show %}
+          {% assign product_vendor_handle = product.vendor | handle %}
+          {% if collections[product_vendor_handle].handle == product_vendor_handle %}
+          {% assign vendor_url = collections[product_vendor_handle].url %}
+          {% else %}
+          {% assign vendor_url = product.vendor | url_for_vendor %}
+          {% endif %}
+          <h2 class="vendor" itemprop="brand">{{ product.vendor | link_to: vendor_url }}</h2>
+          {% endif %}
+        </div>
+      {% endif %}
+      {% if settings.product-position-price == 'left' %}
+        <div data-position="prices">
+          <div class="prices">
+            <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+              <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+
+              {% if product.available %}
+              <link itemprop="availability" href="http://schema.org/InStock" />
+              {% else %}
+              <link itemprop="availability" href="http://schema.org/OutOfStock" />
+              {% endif %}
+
+              <p>
+                {% assign variant = product.selected_or_first_available_variant %}
+                <span class="actual-price{% if variant.price < variant.compare_at_price %} sale{% endif %}" itemprop="price">{{ variant.price | money }}</span>&nbsp; <span class="compare-price">{% if variant.price < variant.compare_at_price %}{{ 'products.was' | t }} <span>{{ variant.compare_at_price | money }}</span>{% endif %}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% if settings.product-position-form == 'left' %}
+        <div data-position="cart-form">
+          <form class="cart-form custom" action="/cart/add" data-productid="{{product.id}}"  method="post" enctype="multipart/form-data"> 
+ {% if product.available %}{% include 'subscription-product' %}{% endif %}   
+
+            {% comment %}
+            <!-- Adding line items - https://docs.shopify.com/manual/configuration/store-customization/page-specific/product-page/get-customization-information-for-products -->
+            <div>
+              <label for="line-item-1">Line Item 1</label>
+              <input type="text" id="line-item-1" name="properties[line-item-1]">
+            </div>
+
+            <div>
+              <label for="line-item-2">Line Item 2</label>
+              <input type="text" id="line-item-2" name="properties[line-item-2]">
+            </div>
+            {% endcomment %}
+
+            <div class="variants {% unless product.variants.size > 1 %}hidden{% endunless %}">
+              <label for="variants">Choose From</label>
+              <select id="variant-listbox" name="id" data-productid="{{product.id}}" class="medium">
+                {% for variant in product.variants %}
+                <option data-sku="{{ variant.sku }}" {% if variant.inventory_quantity <= 0 and variant.available == false %}DISABLED {% endif %}{% if variant == product.selected_or_first_available_variant %}selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="quanity-cart-row clearfix">
+              {% include 'snippet-quantity' %}
+
+              <div class="add-to-cart">
+{{ bold_ro_widget }}
+                <input type="submit" name="add" id="add" value="{{ 'products.add_to_cart' | t }}" class="purchase button">
+<!-- bold-ro-liquid --><div class="bold_add_to_orders" style="display: inline-block;"></div><!-- bold-ro-liquid -->
+              </div>
+            </div>
+          </form>
+
+          {% include 'snippet-product-unavailable' %}
+
+        </div><br>
+      {% endif %}
+        <div class='sidebar-reviews'>
+          <div class="label">Customer Reviews</div>
+          <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span> 
+          <span class="spr-summary-actions">
+            <a href="#" class="spr-summary-actions-newreview link-only">Write a review<i class="fa fa-angle-right"></i></a>
+          </span>
+        </div>
+      {% if settings.product-position-thumbs == 'left' %}
+        <div data-position="thumbs">
+          <div class="thumbs">
+            {% if product.images.size > 1 %}
+            <ul class="clearfix row">
+              {% for image in product.images %}
+              <li class="thumb">
+                <img src="{{ image.src | product_img_url: 'compact' }}" alt="{{ image.alt | escape }}" />
+              </li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+      {% if settings.product-position-description == 'left' %}
+        <div class="tabs">
+          <div class="tab description active"></div>
+          <div class="tab info"></div>
+        </div>
+        <div data-position="description" class="description container">
+          {{ product.description }}
+        </div>
+        <div class="info container">
+          {{ product.metafield.details.info }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="columns large-6 center box2">
+      <div data-position="photos">
+        <div class="photos" >
+          <div class="container clearfix">
+            {% for image in product.images %}
+            <a class="photo" href="{{ image.src | product_img_url: '1024x1024' }}" data-zoom="{{ image.src | product_img_url: '1024x1024' }}" rel="gallery" data-image-id="{{ image.id }}">
+              <img src="{{ image.src | product_img_url: 'grande' }}" alt="{{ image.alt | escape }}" />
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% if settings.product-position-thumbs == 'center' %}
+       <div data-position="thumbs" class="text-center"></div>
+      {% endif %}
+      <div class="made-in-usa">
+        <h4>Made in the USA <img src="https://cdn.shopify.com/s/files/1/0956/4494/t/2/assets/usa-flag.png?8867023778770441096"> From local and imported ingredients.</h4>
+        <h3 class="benefits">Ingredient Benefits <i class="fa fa-angle-down"></i></h3>
+      </div>
+    </div>
+
+    <div class="columns large-3 column-right box3">
+      {% if settings.product-position-title-vendor == 'right' %}
+        <div data-position="title-vendor">
+          {% assign title = product.title | split: ' || ' %}
+          <h1 class="page-title" itemprop="name">{{ title[0] }} <span>{{ title[1] }}{% if title | size == 3 %} {{ title[2] }}{% endif %}</span></h1>
+
+          {% if settings.product-brand-show %}
+          {% assign product_vendor_handle = product.vendor | handle %}
+          {% if collections[product_vendor_handle].handle == product_vendor_handle %}
+          {% assign vendor_url = collections[product_vendor_handle].url %}
+          {% else %}
+          {% assign vendor_url = product.vendor | url_for_vendor %}
+          {% endif %}
+          <h2 class="vendor" itemprop="brand">{{ product.vendor | link_to: vendor_url }}</h2>
+          {% endif %}
+        </div>
+      {% endif %}
+      {% if settings.product-position-price == 'right' %}
+        <div data-position="prices">
+          <div class="prices">
+            <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+              <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+
+              {% if product.available %}
+              <link itemprop="availability" href="http://schema.org/InStock" />
+              {% else %}
+              <link itemprop="availability" href="http://schema.org/OutOfStock" />
+              {% endif %}
+
+              <p>
+                {% assign variant = product.selected_or_first_available_variant %}
+                <span class="actual-price{% if variant.price < variant.compare_at_price %} sale{% endif %}" itemprop="price">{{ variant.price | money }}</span>&nbsp; <span class="compare-price">{% if variant.price < variant.compare_at_price %}{{ 'products.was' | t }} <span>{{ variant.compare_at_price | money }}</span>{% endif %}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% if settings.product-position-form == 'right' %}
+        <div data-position="cart-form">
+          <form class="cart-form custom" action="/cart/add" data-productid="{{product.id}}"  method="post" enctype="multipart/form-data">  
+
+            {% comment %}
+            <!-- Adding line items - https://docs.shopify.com/manual/configuration/store-customization/page-specific/product-page/get-customization-information-for-products -->
+            <div>
+              <label for="line-item-1">Line Item 1</label>
+              <input type="text" id="line-item-1" name="properties[line-item-1]">
+            </div>
+
+            <div>
+              <label for="line-item-2">Line Item 2</label>
+              <input type="text" id="line-item-2" name="properties[line-item-2]">
+            </div>
+            {% endcomment %}
+
+            <div class="variants {% unless product.variants.size > 1 %}hidden{% endunless %}">
+              <select id="variant-listbox" name="id" data-productid="{{product.id}}" class="medium">
+                {% for variant in product.variants %}
+                <option data-sku="{{ variant.sku }}" {% if variant.inventory_quantity <= 0 and variant.available == false %}DISABLED {% endif %}{% if variant == product.selected_or_first_available_variant %}selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="quanity-cart-row clearfix">
+              {% include 'snippet-quantity' %}
+
+              <div class="add-to-cart">
+                <input type="submit" name="add" id="add" value="{{ 'products.add_to_cart' | t }}" class="purchase button">
+<!-- bold-ro-liquid --><div class="bold_add_to_orders" style="display: inline-block;"></div><!-- bold-ro-liquid -->
+              </div>
+            </div>
+          </form>
+
+          {% include 'snippet-product-unavailable' %}
+
+        </div>
+      {% endif %}
+      {% if settings.product-position-thumbs == 'right' %}
+        <div data-position="thumbs">
+          <div class="thumbs">
+            {% if product.images.size > 1 %}
+            <ul class="clearfix row">
+              {% for image in product.images %}
+              <li class="thumb">
+                <img src="{{ image.src | product_img_url: 'compact' }}" alt="{{ image.alt | escape }}" />
+              </li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+      {% if settings.product-position-description == 'right' %}
+        <div class="tabs">
+          <div class="tab description active" data-position="desc">Description</div>
+          <div class="tab info" data-position="info">More Info</div>
+        </div>
+        <div data-position="description" class="desc container active">
+          {{ product.description }}
+        </div>
+        <div class="info container">
+          {{ details.info }}
+        </div>
+      <style>
+        .container { display: none; color: #000; font-size: 16px; }
+        .container a{ color: #7254F4; }
+        .container.active { display: block; }
+        .tabs{ overflow: auto; margin-bottom: 20px; }
+        .tab { float: left; width: 50%; color: #000; font-size: 20px; text-align: center; line-height: 60px; border-bottom: 2px solid white; }
+        .tab.active { border-bottom: 2px solid red; }
+        .tab:hover { cursor: pointer; }
+        
+      </style>
+      <script>
+        $(document).ready(function(){
+          $('.tab').on('click', function() {
+            var data = $(this).data("position");
+            console.log(data);
+          	$('.tab').removeClass('active');
+            $(this).addClass('active');
+            $('.container').removeClass('active');
+            $('.container.'+data).addClass('active');
+          });
+        });
+      </script>
+      {% endif %}
+    </div>
+  </div>
+</article>
+<a id='reviews'></a>
+<div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+<div id="what-the-athletes-say">
+  {% for i in (1..3) %}
+  {% capture img %}image-{{ i }}{% endcapture %}
+  {% capture text %}text-{{ i }}{% endcapture %}
+  {% assign item = product.metafields.testimonials %}
+  {% if item[text] != '-' %}
+  <div class="slide" style="background-image: url('{{ item[img] | asset_url }}');">
+    <h3>What The Athletes Say</h3>
+    <div class="testimonial">
+    	{{ item[text] }}
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>
+<div class="spacer">
+  <div class="angle white"></div>
+</div>
+<style>
+  .positions { overflow: auto; }
+  .slide { min-height: 450px; text-align: right; background-color: #000; background-repeat: no-repeat; background-size: contain; background-position: 100%; }
+  .slide h3 { text-align: center; font-size: 25px; font-weight: normal; text-transform: uppercase; padding-top: 30px; margin-bottom: 0; padding-bottom: 20px;}
+  .slide .testimonial { float: left; width: 50%; clear: both; text-align: left; font-size: 20px; padding-top: 27px; padding-left: 170px; padding-right: 20px; padding-bottom: 60px !important; background-color: rgba(0,0,0,.4);}
+  .spacer { position: relative; height: 80px; overflow: hidden; margin-top: -80px; z-index: 1;}
+  .spacer .angle { position: absolute; width: 100%; top: 42px; height: 300px; transform: skewY(3deg); }
+  .spacer .angle.white {background-color: #FFF;}
+  #what-the-athletes-say { background-color: #000; }
+  #what-the-athletes-say .owl-controls { position: absolute; bottom: 20px; right: 50px; z-index: 2;}
+  #what-the-athletes-say .owl-controls .owl-page { width: 10px; height: 10px; background-color: #fff; margin: 0 10px;}
+  #what-the-athletes-say .owl-controls .owl-page.active { background-color: #E6202E }
+  .social-share .columns { background-color: #e8e8e8 !important; }
+  @media (max-width: 1080px) {
+  	.positions { overflow: auto; }
+    .column-left { width: 50% !important;}
+    .large-6.benefits-details { width: 75% !important; }
+    .column-right { width: 100%; float: none !important; clear: both; }
+    .slide .testimonial { display: inline-block !important; float: none !important; width: auto; padding: 30px 20px; } 
+  }
+  @media (max-width: 768px) {
+    .column-left { width: 100% !important; text-align: center !important; }
+    .page-title span { margin: 0 auto !important; }
+    .cart-form { width: 261px; margin: 0px auto;}
+    .large-6.benefits-details { width: 75% !important; }
+    .large-6.center { width: 100% !important; }
+    .spacer { display: none; }
+    
+  }
+</style>
+<div class="ingredient-benefits">
+  <h2>Ingredient Benefits</h2>
+  <div class="row">
+    <div class="benefits-details columns large-6">
+      {{ details.benefits }}
+    </div>
+  </div>
+</div>
+
+{% if settings.product-share-this-show %}
+  <section class="row social-share">
+    <div class="columns">
+      {% include 'snippet-product-share' with 'product-template' %}
+    </div>
+  </section>
+{% endif %}
+
+{% if settings.product-similar-products-show %}
+  {% include 'snippet-related-products' %}
+{% endif %}
+
+{% if settings.product-modal-enabled %}
+  <div class="modal">
+    <div class="loading"></div>
+    <a aria-hidden="true" class="prev glyph slider-left"></a>
+    <a aria-hidden="true" class="close glyph cross"></a>
+    <a aria-hidden="true" class="next glyph slider-right"></a>
+    <div class="slides"></div>
+  </div>
+  <div class="modal-mask"></div>
+{% endif %}
+
+<script>
+  // variables to pass to shop.js
+  var selectCallback = '';
+  var product_title = '{{ product.title | escape }}';
+  var product_variant_size = {{ product.variants.size }};
+  var product_options_size = {{ product.options.size }};
+  var product_options_first = '{{ product.options.first  }}';
+  var product_json = {%- include 'bold-product', output: 'json' -%};
+  var product_language_was = '{{ 'products.was' | t | escape }}';
+
+  // Looking for the selectCallback function?
+  // You can find it at the bottom of the theme.liquid file
+  $(document).ready(function(){
+
+    $("#what-the-athletes-say").owlCarousel({
+      items : 1,
+      itemsDesktop : [1199,1],
+      itemsDesktopSmall : [980,1],
+      itemsTablet: [768,1],
+      itemsMobile : [479,1],
+      singleItem : true,
+    });
+    $('.benefits').on('click', function(){
+      $('html, body').animate({
+        scrollTop: $(".benefits-details").offset().top
+      }, 1000);
+    });
+    $('.spr-summary-actions-newreview').on('click', function(){
+      $('html, body').animate({
+        scrollTop: $("#shopify-product-reviews").offset().top
+      }, 500);
+    });
+    $('.spr-summary-actions-newreview.link-only').on('click', function(){
+    	$('.spr-form').css('display', 'block');
+    });
+  });
+  var windowWidth = $(window).width();
+  var box1 = $('.box1');
+  var box2 = $('.box2');
+  if (windowWidth < 769){
+    box2.insertBefore(box1);
+  }
+  else{
+    box2.insertAfter(box1);
+  }
+  $(window).resize(function(){
+    newWidth = $(window).width();
+    if (newWidth !== windowWidth){
+      if (newWidth < 769){
+        box2.insertBefore(box1);
+      }
+      else{
+        box2.insertAfter(box1);
+      }
+    }
+  });
+</script>

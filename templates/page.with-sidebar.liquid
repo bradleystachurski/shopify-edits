@@ -1,0 +1,50 @@
+{% if settings.pages-breadcrumb-show %}
+<div class="row">
+  <div class="columns">
+    {% include 'snippet-breadcrumbs' %}
+  </div>
+</div>
+{% endif %}
+  
+<div class="row colored-links" style="max-width: 100%;">
+  <div class="columns large-7">
+    <h1 class="page-title">{{ page.title }}</h1>  
+    <div class="rte-content page-content">
+      {{ page.content }}
+    </div>
+  </div>
+
+  <div class="columns large-4 push-1  ">
+    <div class="divider show-for-small"></div>
+    <div>
+      {% capture snippet_name %}sidebar-{{page.handle}}{% endcapture %}
+      {% include snippet_name %}
+    </div>
+  </div>
+
+</div>
+<div class="spacer">
+  <div class="angle right red">
+  </div>
+</div>
+<section class="smp-links blog-products row" style="max-width: 100%; color: #999; padding-top: 50px; margin-bottom: 50px;background-color: #000;">
+  <h2 class="title">Symbolic Muscle Products</h2>
+  <div class="product-grid">
+    {% for product in collections['products'].products limit: number_of_related_products_to_fetch %}
+    {% include 'snippet-product-item' with number_of_related_products_to_show %}
+    {% endfor %}
+  </div>
+</section>
+<div class="spacer page-with-sidebar">
+  <div class="angle down-right black">
+  </div>
+</div>
+<div class="spacer">
+  <div class="angle left darkgray">
+  </div>
+</div>
+<section class="row social-share" style="max-width: 100%; text-align: center;">
+  <div class="columns center">
+    {% include 'snippet-page-share' %}
+  </div>
+</section>

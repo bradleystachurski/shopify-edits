@@ -1,0 +1,64 @@
+<div class="block-data">
+	<div class="wrapper">
+      {% if section.blocks.size > 0 %}
+    	{% for block in section.blocks %}
+              <div class="imageBlock-{{ forloop.index }} images3block"  {{ block.shopify_attributes }}>
+                  {% if block.settings.image %}
+                      <img src="{{ block.settings.image | img_url: '1024x1024' }}" alt="{{ block.settings.title | escape }}" />
+                  {% endif %}
+                  <h4>{% if block.settings.title != blank %}{{ block.settings.title | escape }}{% endif %}</h4>
+                  <p>{% if block.settings.text != blank %}{{ block.settings.text }}{% endif %}</p>
+              </div>
+    	{% endfor %}
+  	{% endif %}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Block2",
+  "class": "block2",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "For best results, upload images that are 100px in width and 100px in height. Try to keep your images the same size for consistency."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Images for Block2",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title For image",
+          "default": "Image"
+        },
+        {
+          "type": "html",
+          "id": "text",
+          "label": "Sub title for Image",
+          "default": "Sub title for Image Block 2."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link for Image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

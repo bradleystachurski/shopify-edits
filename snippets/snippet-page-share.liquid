@@ -1,0 +1,28 @@
+<h2 class="title">{{ 'products.share_this' | t }}</h2>
+{% capture shareurl %}{{ shop.url }}{{ page.url }}{% endcapture %}
+
+{% if settings.product-share-facebook %}
+  <a class="glyph facebook" href="http://www.facebook.com/sharer.php?u={{ shareurl }}&t={{ page.title }}"></a>
+{% endif %}
+
+{% if settings.product-share-twitter %}
+  <a class="glyph twitter" href="http://twitter.com/home?status=Check%20out%20this%20page:+{{ shareurl }}"></a>
+{% endif %}
+
+{% comment %}{% if settings.product-share-google %}
+  <a class="glyph googleplus" href="https://plus.google.com/share?url={{ shareurl }}" onclick="javascript:window.open(this.href,  '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"></a>
+{% endif %}{% endcomment %}
+
+{% if settings.product-share-pinterest %}
+  <a class="glyph pinterest" href="http://pinterest.com/pin/create/button/?url={{ shareurl }}&description={{ page.title | strip_html | escape | replace: ' ', '%20' }}" count-layout="none"></a>
+{% endif %}
+
+{% if settings.product-share-tumblr %}
+  <a class="glyph tumblr" href="http://www.tumblr.com/share/link?url={{ shareurl | replace: 'http://', '' }}"></a>
+{% endif %}
+
+{% if settings.product-share-email %}
+  <a href="mailto:?subject={{shop.name}} - {{page.title}}&body={{shop.url}}{{page.url}}" class="email">
+    <i class="fa fa-envelope"></i>
+  </a>
+{% endif %}

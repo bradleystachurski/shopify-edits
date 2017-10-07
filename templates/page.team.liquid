@@ -1,0 +1,91 @@
+{% if settings.pages-breadcrumb-show %}
+<div class="row full-width">
+  <div class="columns">
+    {% include 'snippet-breadcrumbs' %}
+  </div>
+</div>
+{% endif %}
+{% for link in linklists.featured-athlete.links %}
+	{% assign featured = link.object %}
+{% endfor %}
+<style>
+  td { padding: 0 !important; }
+  .row.full-width { max-width: 100% !important; }
+  .row.full-width .columns { /*padding: 0;*/ padding: 5px; box-sizing: border-box;}
+  /*.row.full-width .columns:nth-child(4n){
+    padding-right: 0;
+  }
+  .row.full-width .columns:nth-child(1n){
+    padding-left: 0;
+  }*/
+  .athletes { margin-bottom: 20px; }
+  .overlay { background-color: rgba(0, 0, 0, .7); }
+  .item {display: block; padding-bottom: 100%; overflow: hidden; position: relative;}
+  .item img { position: absolute; width: 100%; }
+  .athlete_title { float: left; font-size: 25px; border-top: 2px solid; padding: 10px 0;}
+  a.athlete_name { float: left; display: block; font-size: 40px !important; line-height: 40px; padding: 20px 0; }
+  .bio {float: left; }
+  .description {
+    padding-bottom: 20px;
+  }
+</style>
+<div class="row full-width"><div class="columns"><h1 class="page-title">{{ page.title }}</h1></div></div>
+<div class="row colored-links featured-promo" style="max-width: 100%; background-color: #000;">
+  <h2 class="featured-promo-h2">Featured Athlete</h2>
+  <div class="columns large-6 img-box">
+    {% if featured.content contains '<img' %}
+          {% assign src = featured.content | split: 'src="' %}
+          {% assign src = src[1] | split: '"' | first %}
+    	  <img src='{{src}}'>
+    {% endif %}
+  </div>
+  <div class="columns large-6">
+    <style>
+      .rte-content.page-content .description img { display: none !important; }
+    </style>
+    <div class="rte-content page-content">
+      {{ page.content }}
+      {% assign title = featured.title | split: ' || ' %}
+      <div class='athlete_title'>{{title[1]}}</div><br style="clear:both;" />
+      <a class="athlete_name" style="text-transform: uppercase; pointer-events: none; color: #fff !important;" href="">
+        {{ title[0] }}
+      </a>
+      <div class="bio">
+        {{ featured.content }}
+      </div>
+
+    </div>
+  </div>
+</div>
+<section class="athletes">
+  <h2 style="padding-top: 30px;">All Athletes</h2>
+  <div class="row full-width" style="padding-top: 20px;">
+  
+  {% for link in linklists.athletes-list.links %}
+    {%unless link.handle == 'all-athletes' %}
+    <a href="{{ link.url }}">
+    <div class="columns large-3 small-6">
+      <div class="item has-hover">
+       
+        {% if link.object.content contains '<img' %}
+          {% assign src = link.object.content | split: 'src="' %}
+          {% assign src = src[1] | split: '"' | first %}
+          <img src='{{src}}'>
+        {% endif %}
+       
+        {% assign title = link.object.title | split: ' || ' %}
+        <div class="overlay hidden"><table class="athlete"><tr><td>{{title[1]}}<br><div class="name">{{title[0]}}</div></td></tr></table></div>
+      </div>
+    </div>
+       </a>
+    {% endunless %}
+  {% if forloop.index == 4 or forloop.index == 8 or forloop.index == 12 or forloop.index == 16%}
+  {% endif %}
+  {% endfor %}
+  </div>
+</section>
+<section class="row social-share" style="max-width: 100%; text-align: center;">
+  <div class="columns center">
+    {% include 'snippet-page-share' %}
+  </div>
+</section>

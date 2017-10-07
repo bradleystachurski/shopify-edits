@@ -1,0 +1,54 @@
+<div class="block-data">
+	<div class="wrapper">
+      {% if section.blocks.size > 0 %}
+    	{% for block in section.blocks %}
+              <div class="iconBlock-{{ forloop.index }} icon3block"  {{ block.shopify_attributes }}>
+                <p>
+                  {% if block.settings.image %}
+                      <img src="{{ block.settings.image | img_url: '1024x1024' }}" alt="{{ block.settings.text | escape }}" />
+                  {% endif %}
+                  {% if block.settings.text != blank %}{{ block.settings.text }}{% endif %}
+                </p>
+              </div>
+    	{% endfor %}
+  	{% endif %}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Block4",
+  "class": "block4",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "For best results, upload images that are 100px in width and 100px in height. Try to keep your images the same size for consistency."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Icon for Block4",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "text",
+          "label": "Sub title for Image",
+          "default": "Sub title for Image Block 4."
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

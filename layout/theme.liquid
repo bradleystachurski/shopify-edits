@@ -1,0 +1,311 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+
+<head>
+	<meta name="google-site-verification" content="Vzyr7_PLBEutQ8ymP-e4F6WrEvExr2lj6VzDkLawV7E" />
+  <!-- Blockshop Theme Version 2.2.1 by Troop Themes - http://troopthemes.com/ -->
+
+  <meta charset="UTF-8" /> 
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:image" content="http://cdn.shopify.com/s/files/1/0956/4494/t/2/assets/social.png" />
+  {% if settings.general-favicon-enabled %}
+    <link rel="shortcut icon" type="image/png" href="{{ 'favicon.png' | asset_url }}" />
+  {% endif %}
+
+  {% if template == 'index' %}
+    <title>{{ page_title }}</title>
+  {% elsif template == 'password' %}
+    <title>{{ shop.name }}</title>
+  {% elsif template == '404' %}
+    <title>Page Not Found | {{ shop.name }}</title>
+  {% else %}
+    <title>{{ page_title }} | {{ shop.name }}</title>
+  {% endif %}
+
+  {% if page_description %}
+  <meta name="description" content="{{ page_description }}" />
+  {% endif %}
+
+  <link rel="canonical" href="{{ canonical_url }}" />
+
+  {% include 'snippet-fb-open-graph-tags' %}
+
+  {% include 'snippet-webfont' %}
+
+  {{ content_for_header }}
+
+  {{ 'style.css' | asset_url | stylesheet_tag }}
+  {{ 'custom.css' | asset_url | stylesheet_tag }}
+  {% include 'custom__styles' %}
+
+  <!--[if lt IE 8]>
+    {{ 'json2.js' | asset_url | script_tag }}
+  <![endif]-->
+
+  <!--[if lt IE 9]>
+  <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
+  {{ '//html5shim.googlecode.com/svn/trunk/html5.js' | script_tag }}
+  {{ 'dd_roundies.js' | asset_url | script_tag }}
+  <script>
+  DD_roundies.addRule('.circle', '45px');
+  </script>
+  <![endif]-->
+
+  {{ 'custom.modernizr.js' | asset_url | script_tag }}
+  {{ '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js' | script_tag }}
+  {{ '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js' | script_tag }}
+  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+  {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+
+  {% if template contains 'customers' %}
+    {{ 'customer.css' | asset_url | stylesheet_tag }}
+    {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+    {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
+  {% endif %}
+
+  <script>
+    var twitterID = '{{ settings.twitter_username }}',
+    general_external_links_enabled = {{ settings.general-external-links-enabled }},
+    general_scroll_to_active_item = {{ settings.general-scroll-to-active-item }},
+    shop_url = '{{ shop.url }}',
+    shop_money_format = '{{ shop.money_format | strip_html | replace: "'", '"' | strip }}',
+    home_slider_auto_enabled = {{ settings.home-slider-auto-enabled }},
+    home_slider_rotate_frequency = {{ settings.home-slider-rotate-frequency }},
+    home_widget_twitter_enabled = {{ settings.home-widget-twitter }},
+    home_widget_blog_enabled = {{ settings.home-widget-blog }},
+    home_widget_instagram_client_id = '{{ settings.home-widget-instagram-client-id }}',
+    product_zoom_enabled = {{ settings.product-zoom-enabled }},
+    product_modal_enabled = {{ settings.product-modal-enabled }},
+    currency_switcher_enabled = {{ settings.show_multiple_currencies }},
+    theme = {};
+  </script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+</script>
+<!-- Hits Analytics tracking code -->
+{% if shop.customer_accounts_enabled %}
+  {% if customer %}
+    <script type="text/javascript">
+        function hitsReady() {
+            if (typeof hits != 'undefined')
+                hits('user','identify', {'id' : '{{ customer.id }}'});
+            else
+                setTimeout(hitsReady,500);
+        }
+        window.attachEvent ? window.attachEvent('onload', hitsReady) : window.addEventListener('load', hitsReady, false);
+    </script>
+  {% endif %}
+{% endif %}
+<!-- end of Hits Analytics code -->
+  
+  {% include 'bold-common' %}
+{% include 'bold-ro-init' %}
+{{ 'bold.css' | asset_url | stylesheet_tag }}
+{% include 'bold-product' with product, hide_action: 'header' %}
+  {{ 'bold-helper-functions.js' | asset_url | script_tag }}
+
+ </head>
+
+
+<body class="page-{{ page_title | handle }} {% if customer %}customer-logged-in {% endif %}template-{{ template | split: '.' | first | remove: '/' | remove: '_' }}{% if template == 'index' and settings.home-transparent-menu %} transparent-menu{% endif %}">
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=163017590516435";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+  <header class="main-header">
+    <div class="bg"></div>
+    <div class="row top">
+      {% if settings.show_multiple_currencies and settings.header-logo-center %}
+        <div class="currency-selector columns left-aligned">
+          {% include 'snippet-currency-selector' %}
+        </div>
+      {% endif %}
+
+      <div class="columns{% if settings.header-logo-center %} logo-center{% endif %}">
+        {% include 'snippet-store-title' %}
+      </div>
+
+      <div class="search-account columns">
+        {% include 'snippet-searchbar-account' %}
+      </div>
+
+    </div><!-- .row -->
+
+    <div class="bottom-row">
+      <div class="row">
+        <div class="columns menu-container{% if settings.header-menu-center %} text-center{% endif %}">
+          {% include 'snippet-main-menu' %}
+        </div>
+
+        <div class="columns cart-container">
+          {% include 'snippet-cart' %}
+        </div>
+
+        <div class="mobile-tools">
+          <a class="glyph menu" href=""></a>
+          {% if settings.header-search-show %}
+          <a href="/search" class="glyph fa fa-search"></a>
+          {% endif %}
+          {% if settings.header-account-show and shop.customer_accounts_enabled %}
+          <a href="/account" class="glyph account"></a>
+          {% endif %}
+          <a href="/cart" class="glyph cart"></a>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="main-menu-dropdown-panel">
+      <div class="row{% if settings.header-menu-center %} text-center{% endif %}" sytle="font-size: 18px;">
+
+      </div>
+    </div>
+
+    <div class="mobile-menu hide">
+      {% include 'snippet-mobile-menu' %}
+    </div>
+
+    <div class="row">
+      <div class="header-divider"></div>
+    </div>
+
+  </header>
+
+  <section class="main-content">
+
+      {{ content_for_layout }}
+  </section>
+
+  <footer class="main-footer">
+
+    <div class="row bottom">
+	  <div class="column-1 large-3 columns info">
+        <h2 class="title">SYMBOLIC MUSCLE</h2>
+        <div class="content">
+          <ul class="footer-nav plain-list info" role="navigation">
+            {% for link in linklists.info.links %}
+            <li>
+              <a href="{{ link.url }}">
+                {{ link.title }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="column-2 large-3 columns">
+        <h2 class="title">Customer Care</h2>
+        <div class="content">
+          <ul class="footer-nav plain-list customer-care" role="navigation">
+            {% for link in linklists.care.links %}
+            <li>
+              <a href="{{ link.url }}">
+                {{ link.title }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+          
+        </div>
+      </div>
+      <div class="column-3 large-3 columns">
+        <h2 class="title">Contact Us</h2>
+        <div class="content">
+          <ul class="footer-nav plain-list contact-us" role="navigation">
+            <li><a href="/pages/contact-us">Contact Form</a></li>
+            <li><a href="tel:18556229100">1-855-622-9100</a></li>
+            <li class="address">Symbolic Muscle LLC<br>8850 Business Park Dr<br>Suite 100<br>Austin, Texas 78759</li>
+          </ul>
+        </div>
+      </div>
+      <div class="column-4 large-3 columns">
+          <ul class="footer-nav plain-list socal" role="navigation">
+            <li class="footer-icon"><a href="{{settings['footer-facebook-follow-url']}}"><i class="fa fa-facebook"></i></a></li>
+            <li class="footer-icon"><a href="{{settings['footer-twitter-follow-url']}}"><i class="fa fa-twitter"></i></a></li>
+            {% comment %}<li class="footer-icon"><a href="{{settings['footer-google-follow-url']}}"><i class="fa fa-google"></i></a></li>{% endcomment %}
+            {% comment %}<li class="footer-icon"><a href="{{settings['footer-pinterest-follow-url']}}"><i class="fa fa-pinterest-p"></i></a></li>
+            <li class="footer-icon"><a href="{{settings['footer-email-follow-url']}}"><i class="fa fa-envelope"></i></a></li>{% endcomment %}
+            <li class="footer-icon"><a href="{{settings['footer-linkedin-follow-url']}}"><i class="fa fa-linkedin"></i></a></li>
+            <li class="footer-icon"><a href="{{settings['footer-instagram-follow-url']}}"><i class="fa fa-instagram"></i></a></li>
+            
+          </ul>
+        	<ul class="footer-nav plain-list payment" role="navigation">
+              <li class="footer-icon"><i class="fa fa-cc-amex"></i></li>
+              <li class="footer-icon"><i class="fa fa-cc-mastercard"></i></li>
+              <li class="footer-icon"><i class="fa fa-cc-visa"></i></li>
+          	</ul>
+      </div>
+
+    </div>
+    <div class="row copyright">
+      <div class="row angle"></div>
+      <p>Copyright © 2017 Symbolic Muscle</p>
+    </div>
+  </footer>
+
+  {% if settings.show_multiple_currencies %}
+    {% include 'snippet-currencies' %}
+  {% endif %}
+
+  {{ 'plugins.js' | asset_url | script_tag }}
+  {{ 'shop.js' | asset_url | script_tag }}
+
+  {% if template == 'product' %}
+    <script>
+      var selectCallback = function(variant, selector) {
+        theme.variantSelected(variant, selector);
+        // add your selectCallback code here...
+
+
+      };
+
+      jQuery(function($) {
+        new Shopify.OptionSelectors("variant-listbox", {
+           product: {{ product | json }},
+          onVariantSelected: selectCallback,
+          enableHistoryState: true
+        });
+      });
+    </script>
+  {% endif %}
+<script>
+  $(document).ready(function() {
+    $('.has-hover').hover( function(){
+    	$(this).children('.overlay').removeClass('hidden');
+      	$(this).children('.play').addClass('hover');
+    }, function(){
+    	$(this).children('.overlay').addClass('hidden');
+      	$(this).children('.play').removeClass('hover');
+    });
+  });
+</script>
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','//connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '1527297320933808');
+fbq('track', "PageView");</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1527297320933808&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+            
+{% include 'subscription-theme-footer' %}
+</body>
+</html>

@@ -1,0 +1,84 @@
+<div class="block-data">
+ <section class="section-block3" {% if section.settings.bgimage6 %}style="background: url('{{ section.settings.bgimage6 | img_url: '1024x1024' }}') no-repeat center center transparent;"{% endif %}>
+  <div class="wrapper">
+  {% if section.blocks.size > 0 %}
+    {% for block in section.blocks %}
+    	<div class="imageBlock-{{ forloop.index }} images2block">
+    		
+            <h4>{% if block.settings.title != blank %}{{ block.settings.title | escape }}{% endif %}</h4>
+            <p>{% if block.settings.text != blank %}{{ block.settings.text }}{% endif %}</p>
+          	{% if block.settings.image %}
+                 <img src="{{ block.settings.image | img_url: '1024x1024' }}" alt="{{ block.settings.title | escape }}" />
+            {% endif %}
+          	<p>
+  				<a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} title="{{ block.settings.button_label | escape }}" class="btn">
+               		{{ block.settings.button_label | escape }}
+              	</a>
+			</p>
+    	</div>
+    {% endfor %}
+  {% endif %}
+  </div>
+ </section>
+</div>
+{% schema %}
+{
+  "name": "Block6",
+  "class": "block6",
+  "max_blocks": 2,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "For best results, upload images that are 150px in width and 150px in height. Try to keep your images the same size for consistency."
+    },
+	{
+       "type": "image_picker",
+       "id": "bgimage6",
+       "label": "Background Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Images for Block 6",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title For image",
+          "default": "Image"
+        },
+        {
+          "type": "html",
+          "id": "text",
+          "label": "Text",
+          "default": "Sub title for image Block 6."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label for block 6",
+          "default": "View all"
+        }	
+		
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

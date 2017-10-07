@@ -1,0 +1,100 @@
+<div class="page testimonials">
+  <div class="row full-width">
+    {% if settings.pages-breadcrumb-show %}
+    {% include 'snippet-breadcrumbs' %}
+    {% endif %}
+    <h1 class="page-title">{{ page.title }}</h1>
+  </div>  
+  <div class="testimonials">
+    <div class="block top black"></div>
+    <div class="item transform-left bg-left testimonial-1" style="background-image: url('{{ "testguy1.png" | asset_url }}');">
+      <div class="text right">
+<p>-- “I love this product. It is a little powerful for me so I only need ½ a scoop to complete my workout.”</p>
+
+<p>-- “Wow, I get the tingles every time I take it. It keeps me going through my entire workout”</p>
+
+<p>-- “I take my MUD, crank my music, and then stay out of my way.Lol”</p>
+
+<p>-- “Symbolic Muscle’s Hydro keeps me hydrated and I’m not near as soar after my workouts.”</p>
+ </div>
+    </div>
+    <div class="item bg-right testimonial-2" style="background-image: url('{{ "testgirl1.png" | asset_url }}');">
+      <div class="text left"><p>-- “I love the ways this BCAA tastes especially the new cotton candy”</p>
+
+<p>-- “I drink this BCAA to help with my recovery after my workouts. I especially like the B12 ingredient included to help with my energy level.”</p>
+
+<p>-- “Finally a BCAA that’s clean and smooth with no after-taste. I love it. Thanks Symbolic!”</p>
+
+<p>-- “This fat burner is super powerful but perfect for me. I love how focused I am after my Eradicate in the morning.”</p>
+
+<p>-- “This fat burner keeps me going all day”</p></div>          
+    </div>
+    <div class="item transfrom-right bg-left testimonial-3" style="background-image: url('{{ "testguy2.png" | asset_url }}');">
+      <div class="text right">
+<p>-- “I feel and look like the Incredible Hulk after working out with my MUD pre-workout.”
+
+<p>-- “Eradicate helps keep my appetite under control and I feel great!”</p>
+
+<p>-- “This has got to be the best pre workout I’ve ever taken. Gives you the pump & focus you need in the gym. Time to get Dangerous in the gym!!!”</p>
+
+<p>-- “My one and only best pre-workout I use…..Got to have my MUD!!!!”</p>
+
+<p>-- “Setting new records and moving forward. Progress is key, let nothing stop you from obtaining it. My best lifts so far since after my back surgery! Powered by MUD!!!”</p></div>          
+    </div>
+    <div class="block bottom black"></div>
+  </div>
+</div>
+<div class="spacer">
+  <div class="angle left darkgray">
+  </div>
+</div>
+<section class="row social-share">
+  <div class="columns center">
+    {% include 'snippet-page-share' %}
+  </div>
+</section>
+<style>
+  .block.top { width: 100%; height: 100px; position: absolute; top: 0; z-index; 0;}
+  .block.bottom {width: 100%; height: 100px; position: absolute; bottom: 0; z-index; 0;}
+  .block.black {background-color: #000;}
+  .row.social-share {
+    max-width: 100% !important;
+    color: rgb(153, 153, 153);
+    text-align: center;
+  }
+  .spacer.inside-bottom {
+    position: absolute;
+    width: 100%;
+    height: 80px;
+    bottom: 0px;
+    left: 0px;
+    overflow: hidden;
+  }
+  .additional-testimonials { max-width: 600px; margin: 0 auto; padding-bottom: 50px;}
+  .page.testimonials { overflow: hidden }
+  .testimonials { overflow: hidden; position: relative; }
+  .transform-left { transform: skewY(2deg); }
+  .transform-left .text{ transform: skewY(-2deg); }
+  .transfrom-right { transform: skewY(-2deg); }
+  .transfrom-right .text { transform: skewY(2deg); }
+  .spacer.inside-bottom .angle { top: 40px; }
+  .item { position: relative; min-height: 450px; padding-top: 50px; background-size: contain; background-repeat: no-repeat; overflow: auto;}
+  .item.bg-left {background-position: top left;}
+  .item.bg-right {background-position: top right;}
+  .item .spacer.half { width: 50%; height: 40px; position: absolute; }
+  .item .spacer.half.bottom.right { bottom: -40px; right: 0; }
+  .item .spacer.half.bottom.left { bottom: 5px; left: 0; }
+  .item.testimonial-1 {margin-top: 20px; background-color: #000; z-index: 1;}
+  .item.testimonial-3 {background-color: #000; z-index: 1;}
+
+  .item .text { font-size: 20px; width: 50%; margin: 20px 50px; background-image: url('{{ "Quote.png" | asset_url }}'); background-repeat: no-repeat; padding-top: 40px; padding-left: 50px; padding-bottom: 50px;}
+    @media (max-width: 1200px) {
+    	.item .text {background-color: rgba(0,0,0,.3); padding: 20px; }
+    }
+    @media (max-width: 768px) {
+      .item .text { width: 100%; height: 100%; background-color: rgba( 0,0,0, .4); margin: 0 !important; padding: 40px 20px !important;}
+      .item { height: auto !important; min-height: 350px; overflow: auto;}
+      .item.testimonial-2 {margin-top: -10px;} 
+      .item.testimonial-3 {margin-top: -10px;} 
+    }
+</style>

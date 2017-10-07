@@ -1,0 +1,95 @@
+body.landing .main-header{float:left;}
+body.landing .main-footer{float:left;position:relative;}
+body.landing .landingBlock{
+	float:left;
+  	width:100%;
+}
+body.landing section.main-content{padding-top:0;padding-bottom:0;float:left;width:100%;}
+body.landing .wrapper{max-width:1200px;margin:0 auto;}
+div.block1 section.section-1{
+	background-size:cover !important;
+    height:400px;
+  	text-align:center;
+  	padding-top:110px;
+  	text-shadow:1px 1px 1px #000;
+  	font-family:inherit;
+}
+div.block1 section.section-1 h1{
+	margin-bottom:0;
+}
+div.block1 section.section-1 p a.btn{
+	background-color: #7254f4;
+    border-radius: 5px;
+  	color:#fff;
+  	padding:10px 20px;
+  	text-shadow:none;
+}
+div.images3block{
+	width:33.333333333%;
+    float:left;
+    text-align:center;
+  	padding: 22px 0px;
+}
+
+div.images3block img{max-width:150px;}
+div.images3block h4{margin-bottom:0;font-size:20px;}
+div.images3block p{margin-bottom:0;font-size:16px;     padding: 0 10px 0 10px;}
+
+div.block3 section.section-block3{
+	background-size:cover !important;
+    height:300px;
+  	text-align:center;
+  	text-shadow:1px 1px 1px #000;
+  	font-family:inherit;
+}
+div.block6 section.section-block3{
+	background-size:cover !important;
+    height:300px;
+  	text-align:center;
+  	text-shadow:1px 1px 1px #000;
+  	font-family:inherit;
+}
+
+div.images2block{
+	width:50%;
+    float:left;
+    text-align:center;
+  	padding: 22px 0px;
+}
+
+div.images2block img{max-width:150px;display:inline-block;margin-bottom:20px;}
+div.images2block h4{margin-bottom:0;font-size:20px;}
+div.images2block p{margin-bottom:0;font-size:16px;}
+div.images2block p a.btn{
+	background-color: #7254f4;
+    border-radius: 5px;
+  	color:#fff;
+  	padding:10px 20px;
+  	text-shadow:none;
+}
+div.block4{background:#fff;}
+div.block4 .icon3block{
+	width:33.3333333%;
+  	float:left;
+	text-align:center;
+    color:#000;
+    padding:5px 0;
+}
+div.block4 .icon3block p{margin-bottom:0;}
+div.block4 .icon3block img{
+	width:auto;
+    max-height: 25px;
+    padding-right: 3px;
+}
+@media screen and (max-width:480px){
+  div.images2block,
+  div.images3block,
+  div.block4 .icon3block{
+  	width:100%;
+  }
+  div.block6 section.section-block3,
+  div.block3 section.section-block3{
+  	float:left;
+    height:auto;
+  }
+}

@@ -1,0 +1,23 @@
+<style>
+  span.name, span.link {display: block;}
+  span.name { font-size: 16px; }
+  span.link a { font-size: 16px; color: #8970F4 !important; }
+  span.link a i { margin-left: 5px; }
+  .store { margin-top: 20px;  }
+</style>
+<h1>Where To Buy</h1>
+<!--EDIT THESE ITEMS IN 'Theme Customization', 'Where to Buy.' If more than 20 vendors need to be added, the file 'settings_schema.json' has to be modified.-->
+{% for i in (1..20) %}
+  {% capture enabled %}buy-store-{{ i }}-enabled{% endcapture %} 
+  {% capture name %}buy-store-name-{{ i }}{% endcapture %}    
+  {% capture link %}buy-store-link-{{ i }}{% endcapture %}
+  {% capture image %}buy-store-image-{{ i }}.jpg{% endcapture %}
+  {% if settings[enabled] %}
+  <div class="store">	  
+    <span class="name">{{settings[name]}}</span>
+    <span class="link"><a href="{{settings[link]}}">Visit Website<i class="fa fa-external-link"></i></a></span>
+  	
+  </div>
+  {% endif %}
+
+{% endfor %}
