@@ -305,6 +305,53 @@
 	</style>
 	<!-- Subscriptions Powered by ReCharge Payments: HTML -->
 	<section id="recurring_choice_{{ product.id }}" style="display: none;" class="rc_container">
+			<div id="recurring_purchase_{{ product.id }}" class="rc_option rc_option__recurring {{ product.id }}">
+  			<label for="autodeliver_on_radio_{{ product.id }}" class="rc_label">
+  				<input type="radio" id="autodeliver_on_radio_{{ product.id }}" name="autodeliver_{{ product.id }}" value="autodeliver"{% if subscription_only == 'true' %} checked{% endif %} class="rc_radio autodeliver {{ product.id }}">
+  				<span class="rc_label_text">{{ subscribe_message }}</span>
+  				{% if discount_percentage > 0 %}
+  					<span class="rc_discount_percentage">{{ discount_percentage }}%:</span>
+  					<span id="recurring-time-price_{{ product.id }}" class="rc_discount_price"></span>
+  				{% endif %}
+  			</label><!-- .rc_label -->
+  			<div class="rc_select">
+  				<label class="rc_select__label">
+  					<span class="rc_select__label_text">{{ widget_deliver_every }}</span>
+  					{% if shipping_interval_frequency.size == 1 %}
+  						<input type="hidden" name="" id="fake_shipping_interval_frequency_{{ product.id }}" value="{{ shipping_interval_frequency }}">
+  						<span class="rc_select__option">
+  							{{ shipping_interval_frequency[0] }}
+  							{% if shipping_interval_frequency[0] == "1" and shipping_interval_unit_type == 'Months' %}
+  								<!-- Display "1 Month" not "1 Months" -->
+  								Month
+  							{% elsif shipping_interval_frequency[0] == "1" and shipping_interval_unit_type == 'Weeks' %}
+  								<!-- Display "1 Week" not "1 Weeks" -->
+  								Week
+  							{% else %}
+  								{{ shipping_interval_unit_type }}
+  							{% endif %}
+  						</span><!-- .rc_select__option -->
+  					{% elsif shipping_interval_frequency.size > 1 %}
+  						<select name="" id="fake_shipping_interval_frequency_{{ product.id }}" class="rc_select__dropdown">
+  							{% for frequency in shipping_interval_frequency %}
+  								<option value="{{ frequency }}">
+  									{{ frequency }}
+  									{% if frequency == "1" and shipping_interval_unit_type == 'Months' %}
+  										<!-- Display "1 Month" not "1 Months" -->
+  										Month
+  									{% elsif frequency == "1" and shipping_interval_unit_type == 'Weeks' %}
+  										<!-- Display "1 Week" not "1 Weeks" -->
+  										Week
+  									{% else %}
+  										{{ shipping_interval_unit_type }}
+  									{% endif %}
+  								</option>
+  							{% endfor %}
+  						</select><!-- .rc_select__dropdown -->
+  					{% endif %}
+  				</label><!-- .rc_select__label -->
+  			</div><!-- .rc_select -->
+  		</div><!-- .rc_option .rc_option__recurring -->
 		<div id="single_purchase_{{ product.id }}" class="rc_option rc_option__one-time {{ product.id }}">
 			<label for="autodeliver_off_radio_{{ product.id }}" class="rc_label">
 				<input type="radio" id="autodeliver_off_radio_{{ product.id }}" name="autodeliver_{{ product.id }}" value="onetime"{% if subscription_only == 'false' %} checked{% endif %} class="rc_radio autodeliver {{ product.id }}">
@@ -314,53 +361,6 @@
 				{% endif %}
 			</label><!-- .rc_label -->
 		</div><!-- .rc_option .rc_option__one-time -->
-		<div id="recurring_purchase_{{ product.id }}" class="rc_option rc_option__recurring {{ product.id }}">
-			<label for="autodeliver_on_radio_{{ product.id }}" class="rc_label">
-				<input type="radio" id="autodeliver_on_radio_{{ product.id }}" name="autodeliver_{{ product.id }}" value="autodeliver"{% if subscription_only == 'true' %} checked{% endif %} class="rc_radio autodeliver {{ product.id }}">
-				<span class="rc_label_text">{{ subscribe_message }}</span>
-				{% if discount_percentage > 0 %}
-					<span class="rc_discount_percentage">{{ discount_percentage }}%:</span>
-					<span id="recurring-time-price_{{ product.id }}" class="rc_discount_price"></span>
-				{% endif %}
-			</label><!-- .rc_label -->
-			<div class="rc_select">
-				<label class="rc_select__label">
-					<span class="rc_select__label_text">{{ widget_deliver_every }}</span>
-					{% if shipping_interval_frequency.size == 1 %}
-						<input type="hidden" name="" id="fake_shipping_interval_frequency_{{ product.id }}" value="{{ shipping_interval_frequency }}">
-						<span class="rc_select__option">
-							{{ shipping_interval_frequency[0] }}
-							{% if shipping_interval_frequency[0] == "1" and shipping_interval_unit_type == 'Months' %}
-								<!-- Display "1 Month" not "1 Months" -->
-								Month
-							{% elsif shipping_interval_frequency[0] == "1" and shipping_interval_unit_type == 'Weeks' %}
-								<!-- Display "1 Week" not "1 Weeks" -->
-								Week
-							{% else %}
-								{{ shipping_interval_unit_type }}
-							{% endif %}
-						</span><!-- .rc_select__option -->
-					{% elsif shipping_interval_frequency.size > 1 %}
-						<select name="" id="fake_shipping_interval_frequency_{{ product.id }}" class="rc_select__dropdown">
-							{% for frequency in shipping_interval_frequency %}
-								<option value="{{ frequency }}">
-									{{ frequency }}
-									{% if frequency == "1" and shipping_interval_unit_type == 'Months' %}
-										<!-- Display "1 Month" not "1 Months" -->
-										Month
-									{% elsif frequency == "1" and shipping_interval_unit_type == 'Weeks' %}
-										<!-- Display "1 Week" not "1 Weeks" -->
-										Week
-									{% else %}
-										{{ shipping_interval_unit_type }}
-									{% endif %}
-								</option>
-							{% endfor %}
-						</select><!-- .rc_select__dropdown -->
-					{% endif %}
-				</label><!-- .rc_select__label -->
-			</div><!-- .rc_select -->
-		</div><!-- .rc_option .rc_option__recurring -->
 		{% if show_widget == 'true' %}
 			<div class="rc_popup">
 				<div class="rc_popup__hover">
@@ -396,7 +396,7 @@
 			// "use strict";
 			window.rechargedebug = {};
 			window.script_inclusion;
-			window.currency_prefix = "$"; // $ £ 
+			window.currency_prefix = "$"; // $ ?? 
 			window.currency_suffix = ""; //
 			window.lock_{{ product.id }} = false;
 			window.first_time_{{ product.id }} = true;
